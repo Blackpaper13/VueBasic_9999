@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuma Main-main doang</title>
+    <script src="vue.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        html, body {
+        box-sizing: border-box;
+        height: 100%;
+        padding: 25px;
+        background-color: #ffeead;
+        }
+        #app {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="view" id="app">
+        <form name="form">
+          <div class="div" v-if="coba == '.'">
+            <center>
+              <FONT size="5">WOY, Aku disini Cuma mau Cuba aje, tebak Angke dari 1 - 10</FONT>
+              <p>Kau Cuma Punya 3 Kali aja kalau ngga aku panggil kau Biawak Linggardhinho</p>
+              <BR></BR>
+              <FONT size="4">Coba:</FONT>
+              <INPUT v-model="tebak" TYPE="text" NAME="input" autofocus="autofocus" size="15"></INPUT>
+              <input type="button" @click="checkInput()" value="   Check   "/>
+              <BR></BR>
+              <BR></BR>
+              <div class="author" ALIGN="center">Chris YPT | 180709999 | PAW kelas C<a @click="showNumberTotebak()">.</a></div>
+            </center>
+          </div>
+          <div class="div" v-if="coba == 'greater'">
+            <center>
+              <FONT size="5" color="Darkslateblue">Makan Odading Sana, SALAH</FONT>
+              <BR></BR>
+              <FONT size="4">Coba Lagi:</FONT>
+              <INPUT v-model="tebak" TYPE="text" NAME="input" size="15" autofocus="autofocus"></INPUT>
+              <input type="button" @click="checkInput()" value="   Check   "/>
+            </center>
+          </div>
+          <div class="div" v-if="coba == 'less'">
+            <center>
+              <FONT size="5" color="Darkslateblue">Odading Mang Oleh Dimakan, SALAH</FONT>
+              <BR></BR>
+              <FONT size="4">Coba Lagi:</FONT>
+              <INPUT v-model="tebak" TYPE="text" NAME="input" size="15" autofocus="autofocus"></INPUT>
+              <input type="button" @click="checkInput()" value="   Check   "/>
+            </center>
+          </div>
+          <div class="div" v-if="coba == 'victory'">
+            <center>
+              <FONT size="6" color="Darkslateblue">
+                <B>Yeah</B>, Bener sekali, Ngga jadi panggil kau Biawak {{showNumberTotebak()}}
+              </FONT>
+              <p>Tinggal{{ i }} tersisa</p>
+              <input type="button" name="again" value="   Play again " @click="reload()"/>
+            </center>
+          </div>
+          <div class="div" v-if="coba == 'lost'">
+            <center><font size="6" color="Darkslateblue">Daaah Biawak, Habis, Nomornya adalah {{ n }} kojam kali kau bang</font><br/>
+              <input type="button" name="again" value="   Play again " @click="reload"/>
+            </center>
+          </div>
+        </form>
+      </div>
+</body>
+<script>
+    let app = new Vue({
+  el: "#app",
+  data: {
+    n: -1,
+    i: 0,
+    coba: ".",
+    tebak: ""
+  },
+  methods: {
+    setRndNumber: function () {
+      do {
+        this.n = Math.ceil(Math.random() * 10);
+      } while (this.n > 10 || this.n < 1);
+    },
+    checkInput: function (input) {
+      if (this.n == -1) this.setRndNumber();
+
+      let num = parseInt(this.tebak);
+      this.tebak = "";
+      num = Math.ceil(num);
+      if (num >= 1 && num <= 10) {
+        ++this.i;
+        if (num == this.n) {
+          this.coba = "victory";
+        } else {
+          if (this.i == 3) {
+            this.coba = "lost";
+          } else {
+            if (num > this.n) {
+              this.coba = "greater";
+            }
+            if (num < this.n) {
+              this.coba = "less";
+            }
+          }
+        }
+        form.reset();
+      } else {
+        alert("WOyy Nomor 1 sampe 10 aja.");
+        form.reset();
+      }
+    },
+    showNumberTotebak: function () {
+      alert("The number to tebak is " + this.n);
+    },
+    reload: function () {
+      this.coba = ".";
+      this.setRndNumber();
+      this.i = 0;
+    }
+  }
+});
+app.setRndNumber();
+</script>
+</html>
